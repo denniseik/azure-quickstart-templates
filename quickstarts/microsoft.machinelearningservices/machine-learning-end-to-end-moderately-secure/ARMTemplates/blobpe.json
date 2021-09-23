@@ -1,0 +1,57 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "privateEndpoints_blob_pe_name": {
+            "defaultValue": "blob-pe",
+            "type": "String"
+        },
+        "storageAccounts_sectestsa_externalid": {
+            "defaultValue": "/subscriptions/e2e9abe9-3dfb-4b8c-8537-56999d5a2081/resourceGroups/sec-test-rg/providers/Microsoft.Storage/storageAccounts/sectestsa",
+            "type": "String"
+        },
+        "virtualNetworks_primary_vnet_externalid": {
+            "defaultValue": "/subscriptions/e2e9abe9-3dfb-4b8c-8537-56999d5a2081/resourceGroups/security-tut-rg/providers/Microsoft.Network/virtualNetworks/primary-vnet",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Network/privateEndpoints",
+            "apiVersion": "2020-11-01",
+            "name": "[parameters('privateEndpoints_blob_pe_name')]",
+            "location": "westus",
+            "properties": {
+                "privateLinkServiceConnections": [
+                    {
+                        "name": "[concat(parameters('privateEndpoints_blob_pe_name'), '_3acec143-588b-4bc4-a6b2-9cef26c22016')]",
+                        "properties": {
+                            "privateLinkServiceId": "[parameters('storageAccounts_sectestsa_externalid')]",
+                            "groupIds": [
+                                "blob"
+                            ],
+                            "privateLinkServiceConnectionState": {
+                                "status": "Approved",
+                                "description": "Auto-Approved",
+                                "actionsRequired": "None"
+                            }
+                        }
+                    }
+                ],
+                "manualPrivateLinkServiceConnections": [],
+                "subnet": {
+                    "id": "[concat(parameters('virtualNetworks_primary_vnet_externalid'), '/subnets/Training')]"
+                },
+                "customDnsConfigs": [
+                    {
+                        "fqdn": "sectestsa.blob.core.windows.net",
+                        "ipAddresses": [
+                            "172.25.0.14"
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
+}
