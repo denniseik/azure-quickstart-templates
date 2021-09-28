@@ -1,5 +1,4 @@
 // This template is used to create a DSVM jump box.
-
 param location string
 param subnetId string
 param virtualMachineName string

@@ -10,10 +10,12 @@
 ![Cred Scan Check](https://azurequickstartsservice.blob.core.windows.net/badges/quickstarts/microsoft.machinelearningservices/machine-learning-end-to-end-moderately-secure/CredScanResult.svg)
 
 [![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fquickstarts%2Fmicrosoft.machinelearningservices%2Fmachine-learning-end-to-end-moderately-secure%2Fazuredeploy.json)
-[![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazuregov.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fquickstarts%2Fmicrosoft.machinelearningservices%2Fmachine-learning-end-to-end-moderately-secure%2Fazuredeploy.json)
+[![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazuregov.svg?sanitize=true)](https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fquickstarts%2Fmicrosoft.machinelearningservices%2Fmachine-learning-end-to-end-moderately-secure%2Fazuredeploy.json)
 [![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fquickstarts%2Fmicrosoft.machinelearningservices%2Fmachine-learning-end-to-end-moderately-secure%2Fazuredeploy.json)
 
-This set of Bicep templates demonstrates how to set up Azure Machine Learning end-to-end in a moderately secure set up. This reference implementation includes the Workspace and compute resources. It also includes the configuration of associated resources including Azure Key Vault, Azure Storage, Azure Application Insights and Azure Container Registry in a secure setup.
+This set of Bicep templates demonstrates how to set up Azure Machine Learning end-to-end in a moderately secure set up.
+
+This reference implementation includes the Workspace, a CPU compute cluster, a GPU compute cluster, compute instance and attached private AKS cluster. It also includes the configuration of associated resources including Azure Key Vault, Azure Storage, Azure Application Insights and Azure Container Registry in a secure setup.
 
 ## Resources
 
@@ -25,7 +27,13 @@ This set of Bicep templates demonstrates how to set up Azure Machine Learning en
 | `Microsoft.Storage/storageAccounts` | An Azure Storage instance associated to the Azure Machine Learning workspace |
 | `Microsoft.ContainerRegistry/registries` | An Azure Container Registry instance associated to the Azure Machine Learning workspace |
 | `Microsoft.MachineLearningServices/workspaces` | An Azure Machine Learning workspace instance |
-| @TODO | @TODO |
+| `Microsoft.MachineLearningServices workspaces/computes` | Azure Machine Learning workspace compute cluster |
+| DSVM Jumpbox | @TODO |
+| Private DNS Zones | @TODO |
+| NSG | @TODO |
+| Private AKS | @TODO |
+| Storage | @TODO |
+| VNET | @TODO |
 
 ## Variables
 

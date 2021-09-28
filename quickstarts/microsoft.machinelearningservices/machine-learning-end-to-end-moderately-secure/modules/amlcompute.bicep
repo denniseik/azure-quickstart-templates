@@ -5,8 +5,8 @@ targetScope = 'resourceGroup'
 param location string
 param tags object
 param subnetId string
-// Variables
 
+// Variables
 resource machineLearningGpuCluster001 'Microsoft.MachineLearningServices/workspaces/computes@2021-04-01' = if (false) {
   parent: machineLearning
   name: 'gpucluster001'

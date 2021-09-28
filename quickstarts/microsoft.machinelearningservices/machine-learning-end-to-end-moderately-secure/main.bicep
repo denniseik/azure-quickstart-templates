@@ -1,5 +1,3 @@
-// This template is used to create a secure Azure Machine Learning workspace with CPU cluster, GPU cluster, Compute Instance and attached private AKS cluster.
-
 targetScope = 'resourceGroup'
 
 // General parameters
@@ -34,7 +32,6 @@ param dsvmJumpboxPassword string
 var name = toLower('${prefix}')
 
 // Resources
-
 module nsg001 'modules/nsg.bicep' = {
   name: '${name}-nsg001'
   scope: resourceGroup()
@@ -62,7 +59,6 @@ module vnet001 'modules/vnet.bicep' = {
     azureBastionSubnetPrefix: azureBastionSubnetPrefix
   }
 }
-
 
 module storage001 'modules/storage.bicep' = {
   name: '${name}-storage001'
