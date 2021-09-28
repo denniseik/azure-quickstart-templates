@@ -4,7 +4,7 @@ targetScope = 'resourceGroup'
 
 // General parameters
 @description('Specifies the location for all resources.')
-param location string
+param location string = resourceGroup().location
 
 @minLength(2)
 @maxLength(10)
