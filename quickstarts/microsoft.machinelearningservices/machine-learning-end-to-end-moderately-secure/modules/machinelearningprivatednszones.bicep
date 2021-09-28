@@ -10,6 +10,18 @@ param workspaceArmId string
 param workspaceName string
 param tags object
 
+
+var privateDnsZoneName =  {
+  azureusgovernment: 'privatelink.api.ml.azure.us'
+  azurechinacloud: 'privatelink.api.ml.azure.cn'
+  azurecloud: 'privatelink.api.azureml.ms'
+  }
+
+var privateAznbDnsZoneName = {
+    azureusgovernment: 'privatelink.notebooks.usgovcloudapi.net'
+    azurechinacloud: 'privatelink.notebooks.chinacloudapi.cn'
+    azurecloud: 'privatelink.notebooks.azure.net'
+    }
 resource machineLearningPrivateEndpoint 'Microsoft.Network/privateEndpoints@2020-11-01' = {
   name: 'workspace-pe'
   location: location
@@ -35,7 +47,7 @@ resource machineLearningPrivateEndpoint 'Microsoft.Network/privateEndpoints@2020
 }
 
 resource amlPrivateDnsZone 'Microsoft.Network/privateDnsZones@2018-09-01' = {
-  name: 'privatelink.api.azureml.ms'
+  name: privateDnsZoneName[toLower(environment().name)]
   dependsOn: [
     machineLearningPrivateEndpoint
   ]
@@ -109,7 +121,7 @@ resource amlPrivateDnsZoneVnetLink 'Microsoft.Network/privateDnsZones/virtualNet
 
 // Notebook
 resource notebookPrivateDnsZone 'Microsoft.Network/privateDnsZones@2018-09-01' = {
-  name: 'privatelink.notebooks.azure.net'
+  name: privateAznbDnsZoneName[toLower(environment().name)]
   dependsOn: [
     machineLearningPrivateEndpoint
   ]

@@ -11,6 +11,11 @@ param virtualNetworkId string
 // Variables
 var containerRegistryNameCleaned = replace(containerRegistryName, '-', '')
 
+var privateDnsZoneName = {
+  azureusgovernment: 'privatelink.azurecr.us'
+  azurechinacloud: 'privatelink.azurecr.cn'
+  azurecloud: 'privatelink.azurecr.io'
+  }
 // Resources
 resource containerRegistry 'Microsoft.ContainerRegistry/registries@2020-11-01-preview' = {
   name: containerRegistryNameCleaned
@@ -75,7 +80,8 @@ resource containerRegistryPrivateEndpoint 'Microsoft.Network/privateEndpoints@20
 }
 
 resource acrPrivateDnsZone 'Microsoft.Network/privateDnsZones@2018-09-01' = {
-  name: 'privatelink.azurecr.io'
+  name: privateDnsZoneName[toLower(environment().name)]
+
   dependsOn: [
     containerRegistryPrivateEndpoint
   ]

@@ -1,5 +1,3 @@
-# Usage
-
 This creates the resources in this document (https://microsoft.sharepoint.com/:w:/t/Vienna/EbD553TP28JPhnYFG9kgrsMBZ3LzH6wKnmFrYIWki4WHHA) but it does not create the resource groups yet. 
 Please create one resource group to test this out.
 

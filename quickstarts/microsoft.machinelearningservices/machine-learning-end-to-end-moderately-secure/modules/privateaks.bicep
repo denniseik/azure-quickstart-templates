@@ -38,7 +38,7 @@ resource aksCluster 'Microsoft.ContainerService/managedClusters@2020-07-01' = {
     ]
     enableRBAC: true
     networkProfile: {
-      networkPlugin: 'azure'
+      networkPlugin: 'kubenet'
       serviceCidr: '10.0.0.0/16'
       dnsServiceIP: '10.0.0.10'
       dockerBridgeCidr: '172.17.0.1/16'

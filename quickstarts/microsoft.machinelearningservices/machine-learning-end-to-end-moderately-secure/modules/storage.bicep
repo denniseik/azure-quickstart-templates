@@ -22,6 +22,16 @@ param storageSkuName string = 'Standard_LRS'
 
 // Variables
 var storageNameCleaned = replace(storageName, '-', '')
+var blobPrivateDnsZoneName =  {
+  azureusgovernment: 'privatelink.blob.core.usgovcloudapi.net'
+  azurechinacloud: 'privatelink.blob.core.chinacloudapi.cn'
+  azurecloud: 'privatelink.blob.core.windows.net'
+  }
+var filePrivateDnsZoneName =  {
+  azureusgovernment: 'privatelink.file.core.usgovcloudapi.net'
+  azurechinacloud: 'privatelink.file.core.chinacloudapi.cn'
+  azurecloud: 'privatelink.file.core.windows.net'
+  }
 
 // Resources
 resource storage 'Microsoft.Storage/storageAccounts@2021-04-01' = {
@@ -162,7 +172,7 @@ resource storagePrivateEndpointFile 'Microsoft.Network/privateEndpoints@2020-11-
 }
 
 resource blobPrivateDnsZone 'Microsoft.Network/privateDnsZones@2018-09-01' = {
-  name: 'privatelink.blob.core.windows.net'
+  name: blobPrivateDnsZoneName[toLower(environment().name)]
   dependsOn: [
     storagePrivateEndpointBlob
   ]
@@ -220,7 +230,7 @@ resource blobPrivateDnsZoneVnetLink 'Microsoft.Network/privateDnsZones/virtualNe
 }
 
 resource filePrivateDnsZone 'Microsoft.Network/privateDnsZones@2018-09-01' = {
-  name: 'privatelink.file.core.windows.net'
+  name: filePrivateDnsZoneName[toLower(environment().name)]
   dependsOn: [
     storagePrivateEndpointFile
   ]

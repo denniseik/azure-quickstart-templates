@@ -9,6 +9,13 @@ param subnetId string
 param virtualNetworkId string
 
 // Resources
+
+var privateDnsZoneName =  {
+  azureusgovernment: 'privatelink.vaultcore.usgovcloudapi.net'
+  azurechinacloud: 'privatelink.vaultcore.azure.cn'
+  azurecloud: 'privatelink.vaultcore.azure.net'
+  }
+
 resource keyVault 'Microsoft.KeyVault/vaults@2021-04-01-preview' = {
   name: keyvaultName
   location: location
@@ -62,7 +69,7 @@ resource keyVaultPrivateEndpoint 'Microsoft.Network/privateEndpoints@2020-11-01'
 }
 
 resource keyVaultPrivateDnsZone 'Microsoft.Network/privateDnsZones@2018-09-01' = {
-  name: 'privatelink.vaultcore.azure.net'
+  name: privateDnsZoneName[toLower(environment().name)]
   dependsOn: [
     keyVaultPrivateEndpoint
   ]

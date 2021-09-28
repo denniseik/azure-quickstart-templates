@@ -49,7 +49,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-07-01' = {
       {
         id: 'scoring-subnet'
         properties: {
-          addressPrefix: empty(scoringSubnetPrefix) ? '192.168.2.0/23' : scoringSubnetPrefix
+          addressPrefix: empty(scoringSubnetPrefix) ? '192.168.1.0/24' : scoringSubnetPrefix
           privateEndpointNetworkPolicies: 'Disabled'
           privateLinkServiceNetworkPolicies: 'Disabled'
           serviceEndpoints: [
