@@ -16,14 +16,17 @@ param tags object = {}
 
 // Resource parameters
 // Vnet/Subnet address prefixes
-@description('Specifies the address prefix of the virtual network. To use the default value, do not specify a new value.')
-param vnetAddressPrefix string
-@description('Specifies the address prefix of the training subnet. To use the default value, do not specify a new value.')
-param trainingSubnetPrefix string
-@description('Specifies the address prefix of the scoring subnet. To use the default value, do not specify a new value.')
-param scoringSubnetPrefix string
-@description('Specifies the address prefix of the azure bastion subnet. To use the default value, do not specify a new value.')
-param azureBastionSubnetPrefix string
+@description('Specifies the address prefix of the virtual network.')
+param vnetAddressPrefix string = '192.168.0.0/16'
+
+@description('Specifies the address prefix of the training subnet.')
+param trainingSubnetPrefix string = '192.168.0.0/24'
+
+@description('Specifies the address prefix of the scoring subnet.')
+param scoringSubnetPrefix string = '192.168.1.0/24'
+
+@description('Specifies the address prefix of the azure bastion subnet.')
+param azureBastionSubnetPrefix string = '192.168.250.0/27'
 
 // DSVM Jumpbox username and password
 param dsvmJumpboxUsername string
