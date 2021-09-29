@@ -1,3 +1,5 @@
+// This template is used to create a secure Azure Machine Learning workspace with CPU cluster, GPU cluster, Compute Instance and attached private AKS cluster.
+
 targetScope = 'resourceGroup'
 
 // General parameters
@@ -32,8 +34,9 @@ param dsvmJumpboxPassword string
 var name = toLower('${prefix}')
 
 // Resources
+
 module nsg001 'modules/nsg.bicep' = {
-  name: 'nsg-${name}-001'
+  name: '${name}-nsg001'
   scope: resourceGroup()
   params: {
     location: location
@@ -43,7 +46,7 @@ module nsg001 'modules/nsg.bicep' = {
 }
 
 module vnet001 'modules/vnet.bicep' = {
-  name: 'vnet-${name}-${location}-001'
+  name: '${name}-vnet001'
   dependsOn: [
     nsg001
   ]
@@ -51,7 +54,7 @@ module vnet001 'modules/vnet.bicep' = {
   params: {
     location: location
     tags: tags
-    virtualNetworkName: 'vnet-${name}-${location}-001'
+    virtualNetworkName: '${name}-vnet001'
     networkSecurityGroupId: nsg001.outputs.networkSecurityGroup
     vnetAddressPrefix: vnetAddressPrefix
     trainingSubnetPrefix: trainingSubnetPrefix
@@ -60,8 +63,9 @@ module vnet001 'modules/vnet.bicep' = {
   }
 }
 
+
 module storage001 'modules/storage.bicep' = {
-  name: 'st${name}${environment}001'
+  name: '${name}-storage001'
   dependsOn: [
     vnet001
   ]
@@ -69,7 +73,7 @@ module storage001 'modules/storage.bicep' = {
   params: {
     location: location
     tags: tags
-    storageName: 'st${name}001'
+    storageName: '${name}-storage001'
     storageSkuName: 'Standard_LRS'
     subnetId: '${vnet001.outputs.virtualNetworkId}/subnets/training-subnet'
     virtualNetworkId: '${vnet001.outputs.virtualNetworkId}'
@@ -78,7 +82,7 @@ module storage001 'modules/storage.bicep' = {
 
 // Resources
 module keyvault001 'modules/keyvault.bicep' = {
-  name: 'kv-${name}-001'
+  name: '${name}-keyvault001'
   dependsOn: [
     vnet001
   ]
@@ -86,14 +90,14 @@ module keyvault001 'modules/keyvault.bicep' = {
   params: {
     location: location
     tags: tags
-    keyvaultName: 'kv-${name}-${environment}-001'
+    keyvaultName: '${name}-vault001'
     subnetId: '${vnet001.outputs.virtualNetworkId}/subnets/training-subnet'
     virtualNetworkId: '${vnet001.outputs.virtualNetworkId}'
   }
 }
 
 module containerRegistry001 'modules/containerregistry.bicep' = {
-  name: 'cr${name}${environment}001'
+  name: '${name}-containerRegistry001'
   dependsOn: [
     vnet001
   ]

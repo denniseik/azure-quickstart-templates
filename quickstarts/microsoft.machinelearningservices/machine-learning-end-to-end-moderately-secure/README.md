@@ -10,7 +10,6 @@
 ![Cred Scan Check](https://azurequickstartsservice.blob.core.windows.net/badges/quickstarts/microsoft.machinelearningservices/machine-learning-end-to-end-moderately-secure/CredScanResult.svg)
 
 [![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazure.svg?sanitize=true)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fquickstarts%2Fmicrosoft.machinelearningservices%2Fmachine-learning-end-to-end-moderately-secure%2Fazuredeploy.json)
-[![Deploy To Azure](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/deploytoazuregov.svg?sanitize=true)](https://portal.azure.us/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fquickstarts%2Fmicrosoft.machinelearningservices%2Fmachine-learning-end-to-end-moderately-secure%2Fazuredeploy.json)
 [![Visualize](https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/1-CONTRIBUTION-GUIDE/images/visualizebutton.svg?sanitize=true)](http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-quickstart-templates%2Fmaster%2Fquickstarts%2Fmicrosoft.machinelearningservices%2Fmachine-learning-end-to-end-moderately-secure%2Fazuredeploy.json)
 
 This set of Bicep templates demonstrates how to set up Azure Machine Learning end-to-end in a moderately secure set up.
@@ -27,19 +26,26 @@ This reference implementation includes the Workspace, a CPU compute cluster, a G
 | `Microsoft.Storage/storageAccounts` | An Azure Storage instance associated to the Azure Machine Learning workspace |
 | `Microsoft.ContainerRegistry/registries` | An Azure Container Registry instance associated to the Azure Machine Learning workspace |
 | `Microsoft.MachineLearningServices/workspaces` | An Azure Machine Learning workspace instance |
-| `Microsoft.MachineLearningServices workspaces/computes` | Azure Machine Learning workspace compute cluster |
-| DSVM Jumpbox | @TODO |
-| Private DNS Zones | @TODO |
-| NSG | @TODO |
-| Private AKS | @TODO |
-| Storage | @TODO |
-| VNET | @TODO |
+| `Microsoft.MachineLearningServices workspaces/computes` | Azure Machine Learning workspace compute types: cluster and compute instance |
+| `Microsoft.Network/privateDnsZones` | Private DNS zones for Azure Machine Learning and the dependent resources |
+| `Microsoft.Network/networkSecurityGroups` | A Network Security Group pre-configured for use with Azure Machine Learning |
+| `Microsoft.ContainerService/managedClusters` | An Azure Kubernetes Services cluster for inferencing |
+| `Microsoft.Compute/virtualMachines` | A Data Science Virtual Machine `jumpbox` to access the workspace over the private link endpoint |
+| `Microsoft.Network/virtualNetworks` | A virtual network to deploy all resources in |
 
 ## Variables
 
-| Name | Description |
-|-|-|
-| parameter @TODO | value @TODO |
+| Name | Description | Default |
+|-|-|-|
+| location | Specifies the Azure region for all resources | resourceGroup().location |
+| prefix | Specifies the prefix for all resources created in this deployment | - |
+| tags | Any tags you want to apply to all resources | {} |
+| vnetAddressPrefix | Specifies the address prefix of the virtual network. | '192.168.0.0/16' |
+| trainingSubnetPrefix | Specifies the address prefix of the training subnet. | '192.168.0.0/24' |
+| scoringSubnetPrefix | Specifies the address prefix of the scoring subnet. | '192.168.1.0/24' |
+| azureBastionSubnetPrefix | Specifies the address prefix of the azure bastion subnet. | '192.168.250.0/27' |
+| dsvmJumpboxUsername | Admin username for the Data Science Virtual Machine (jumpbox) | - |
+| dsvmJumpboxPassword | Admin password for the Data Science Virtual Machine (jumpbox) | - |
 
 ## Usage
 

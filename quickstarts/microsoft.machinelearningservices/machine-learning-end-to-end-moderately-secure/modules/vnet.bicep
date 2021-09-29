@@ -105,7 +105,7 @@ resource publicIpAddressForBastion 'Microsoft.Network/publicIpAddresses@2020-08-
 }
 
 resource bastionHost 'Microsoft.Network/bastionHosts@2019-04-01' = {
-  name: 'bation-jumpbox'
+  name: 'bastion-jumpbox'
   dependsOn: [
     virtualNetwork
     publicIpAddressForBastion
