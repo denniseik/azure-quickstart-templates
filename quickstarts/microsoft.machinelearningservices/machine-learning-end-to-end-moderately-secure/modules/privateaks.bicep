@@ -65,7 +65,7 @@ resource workspaceName_computeName 'Microsoft.MachineLearningServices/workspaces
         subnetId: aksSubnetId
       } 
       loadBalancerType: 'InternalLoadBalancer'
-      loadBalancerSubnet: 'scoring-subnet'
+      loadBalancerSubnet: 'snet-scoring'
     }
   }
 }
