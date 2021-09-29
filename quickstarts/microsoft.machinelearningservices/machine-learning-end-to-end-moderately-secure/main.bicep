@@ -33,7 +33,7 @@ var name = toLower('${prefix}')
 
 // Resources
 module nsg001 'modules/nsg.bicep' = {
-  name: '${name}-nsg001'
+  name: 'nsg-${name}-001'
   scope: resourceGroup()
   params: {
     location: location
@@ -43,7 +43,7 @@ module nsg001 'modules/nsg.bicep' = {
 }
 
 module vnet001 'modules/vnet.bicep' = {
-  name: '${name}-vnet001'
+  name: 'vnet-${name}-${location}-001'
   dependsOn: [
     nsg001
   ]
@@ -51,7 +51,7 @@ module vnet001 'modules/vnet.bicep' = {
   params: {
     location: location
     tags: tags
-    virtualNetworkName: '${name}-vnet001'
+    virtualNetworkName: 'vnet-${name}-${location}-001'
     networkSecurityGroupId: nsg001.outputs.networkSecurityGroup
     vnetAddressPrefix: vnetAddressPrefix
     trainingSubnetPrefix: trainingSubnetPrefix
@@ -61,7 +61,7 @@ module vnet001 'modules/vnet.bicep' = {
 }
 
 module storage001 'modules/storage.bicep' = {
-  name: '${name}-storage001'
+  name: 'st${name}${environment}001'
   dependsOn: [
     vnet001
   ]
@@ -69,7 +69,7 @@ module storage001 'modules/storage.bicep' = {
   params: {
     location: location
     tags: tags
-    storageName: '${name}-storage001'
+    storageName: 'st${name}001'
     storageSkuName: 'Standard_LRS'
     subnetId: '${vnet001.outputs.virtualNetworkId}/subnets/training-subnet'
     virtualNetworkId: '${vnet001.outputs.virtualNetworkId}'
@@ -78,7 +78,7 @@ module storage001 'modules/storage.bicep' = {
 
 // Resources
 module keyvault001 'modules/keyvault.bicep' = {
-  name: '${name}-keyvault001'
+  name: 'kv-${name}-001'
   dependsOn: [
     vnet001
   ]
@@ -86,14 +86,14 @@ module keyvault001 'modules/keyvault.bicep' = {
   params: {
     location: location
     tags: tags
-    keyvaultName: '${name}-vault001'
+    keyvaultName: 'kv-${name}-${environment}-001'
     subnetId: '${vnet001.outputs.virtualNetworkId}/subnets/training-subnet'
     virtualNetworkId: '${vnet001.outputs.virtualNetworkId}'
   }
 }
 
 module containerRegistry001 'modules/containerregistry.bicep' = {
-  name: '${name}-containerRegistry001'
+  name: 'cr${name}${environment}001'
   dependsOn: [
     vnet001
   ]
