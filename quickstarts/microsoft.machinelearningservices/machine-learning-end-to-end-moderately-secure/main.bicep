@@ -38,7 +38,7 @@ var name = toLower('${prefix}')
 
 // Resources
 
-module nsg001 'modules/nsg.bicep' = {
+module nsg 'modules/nsg.bicep' = {
   name: '${name}-nsg001'
   scope: resourceGroup()
   params: {
@@ -48,17 +48,17 @@ module nsg001 'modules/nsg.bicep' = {
   }
 }
 
-module vnet001 'modules/vnet.bicep' = {
+module vnet 'modules/vnet.bicep' = {
   name: '${name}-vnet001'
   dependsOn: [
-    nsg001
+    nsg
   ]
   scope: resourceGroup()
   params: {
     location: location
     tags: tags
     virtualNetworkName: '${name}-vnet001'
-    networkSecurityGroupId: nsg001.outputs.networkSecurityGroup
+    networkSecurityGroupId: nsg.outputs.networkSecurityGroup
     vnetAddressPrefix: vnetAddressPrefix
     trainingSubnetPrefix: trainingSubnetPrefix
     scoringSubnetPrefix: scoringSubnetPrefix
@@ -67,10 +67,10 @@ module vnet001 'modules/vnet.bicep' = {
 }
 
 
-module storage001 'modules/storage.bicep' = {
+module storage 'modules/storage.bicep' = {
   name: '${name}-storage001'
   dependsOn: [
-    vnet001
+    vnet
   ]
   scope: resourceGroup()
   params: {
@@ -78,46 +78,46 @@ module storage001 'modules/storage.bicep' = {
     tags: tags
     storageName: '${name}-storage001'
     storageSkuName: 'Standard_LRS'
-    subnetId: '${vnet001.outputs.virtualNetworkId}/subnets/training-subnet'
-    virtualNetworkId: '${vnet001.outputs.virtualNetworkId}'
+    subnetId: '${vnet.outputs.virtualNetworkId}/subnets/training-subnet'
+    virtualNetworkId: '${vnet.outputs.virtualNetworkId}'
   }
 }
 
 // Resources
-module keyvault001 'modules/keyvault.bicep' = {
+module keyvault 'modules/keyvault.bicep' = {
   name: '${name}-keyvault001'
   dependsOn: [
-    vnet001
+    vnet
   ]
   scope: resourceGroup()
   params: {
     location: location
     tags: tags
     keyvaultName: '${name}-vault001'
-    subnetId: '${vnet001.outputs.virtualNetworkId}/subnets/training-subnet'
-    virtualNetworkId: '${vnet001.outputs.virtualNetworkId}'
+    subnetId: '${vnet.outputs.virtualNetworkId}/subnets/training-subnet'
+    virtualNetworkId: '${vnet.outputs.virtualNetworkId}'
   }
 }
 
-module containerRegistry001 'modules/containerregistry.bicep' = {
+module containerRegistry 'modules/containerregistry.bicep' = {
   name: '${name}-containerRegistry001'
   dependsOn: [
-    vnet001
+    vnet
   ]
   scope: resourceGroup()
   params: {
     location: location
     tags: tags
     containerRegistryName: '${name}-containerregistry001'
-    subnetId: '${vnet001.outputs.virtualNetworkId}/subnets/training-subnet'
-    virtualNetworkId: '${vnet001.outputs.virtualNetworkId}'
+    subnetId: '${vnet.outputs.virtualNetworkId}/subnets/training-subnet'
+    virtualNetworkId: '${vnet.outputs.virtualNetworkId}'
   }
 }
 
-module applicationInsights001 'modules/applicationinsights.bicep' = {
+module applicationInsights 'modules/applicationinsights.bicep' = {
   name: '${name}-applicationInsights001'
   dependsOn: [
-    vnet001
+    vnet
   ]
   scope: resourceGroup()
   params: {
@@ -127,13 +127,13 @@ module applicationInsights001 'modules/applicationinsights.bicep' = {
   }
 }
 
-module machineLearning001 'modules/machinelearning.bicep' = {
+module amlWorkspace 'modules/machinelearning.bicep' = {
   name: '${name}-machineLearning001'
   dependsOn: [
-    keyvault001
-    containerRegistry001
-    applicationInsights001
-    storage001
+    keyvault
+    containerRegistry
+    applicationInsights
+    storage
   ]
   scope: resourceGroup()
   params: {
@@ -141,26 +141,26 @@ module machineLearning001 'modules/machinelearning.bicep' = {
     prefix: name
     tags: tags
     machineLearningName: '${name}-ws'
-    applicationInsightsId: applicationInsights001.outputs.applicationInsightsId
-    containerRegistryId: containerRegistry001.outputs.containerRegistryId
-    keyVaultId: keyvault001.outputs.keyvaultId
-    storageAccountId: storage001.outputs.storageId
-    subnetId: '${vnet001.outputs.virtualNetworkId}/subnets/training-subnet'
-    computeSubnetId: '${vnet001.outputs.virtualNetworkId}/subnets/training-subnet'
-    aksSubnetId: '${vnet001.outputs.virtualNetworkId}/subnets/scoring-subnet'
-    virtualNetworkId: '${vnet001.outputs.virtualNetworkId}'
+    applicationInsightsId: applicationInsights.outputs.applicationInsightsId
+    containerRegistryId: containerRegistry.outputs.containerRegistryId
+    keyVaultId: keyvault.outputs.keyvaultId
+    storageAccountId: storage.outputs.storageId
+    subnetId: '${vnet.outputs.virtualNetworkId}/subnets/training-subnet'
+    computeSubnetId: '${vnet.outputs.virtualNetworkId}/subnets/training-subnet'
+    aksSubnetId: '${vnet.outputs.virtualNetworkId}/subnets/scoring-subnet'
+    virtualNetworkId: '${vnet.outputs.virtualNetworkId}'
   }
 }
 
-module dsvm001 'modules/dsvmjumpbox.bicep' = {
+module dsvm 'modules/dsvmjumpbox.bicep' = {
   name: '${name}-dsvm001'
   scope: resourceGroup()
   params: {
     location: location
     virtualMachineName: name
-    subnetId: '${vnet001.outputs.virtualNetworkId}/subnets/training-subnet'
+    subnetId: '${vnet.outputs.virtualNetworkId}/subnets/training-subnet'
     adminUsername: dsvmJumpboxUsername
     adminPassword: dsvmJumpboxPassword
-    networkSecurityGroupId: nsg001.outputs.networkSecurityGroup
+    networkSecurityGroupId: nsg.outputs.networkSecurityGroup
   }
 }
