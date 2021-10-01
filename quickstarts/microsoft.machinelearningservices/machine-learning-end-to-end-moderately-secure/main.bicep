@@ -181,6 +181,6 @@ module dsvm 'modules/dsvmjumpbox.bicep' = {
     subnetId: '${vnet.outputs.virtualNetworkId}/subnets/snet-training'
     adminUsername: dsvmJumpboxUsername
     adminPassword: dsvmJumpboxPassword
-    networkSecurityGroupId: nsg.outputs.networkSecurityGroup
-git s  }
+    networkSecurityGroupId: nsg.outputs.networkSecurityGroup 
+  }
 }
