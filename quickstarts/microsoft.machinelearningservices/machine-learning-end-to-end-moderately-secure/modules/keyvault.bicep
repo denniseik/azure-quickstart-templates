@@ -14,7 +14,7 @@ var privateDnsZoneName =  {
   azureusgovernment: 'privatelink.vaultcore.usgovcloudapi.net'
   azurechinacloud: 'privatelink.vaultcore.azure.cn'
   azurecloud: 'privatelink.vaultcore.azure.net'
-  }
+}
 
 resource keyVault 'Microsoft.KeyVault/vaults@2021-04-01-preview' = {
   name: keyvaultName

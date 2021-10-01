@@ -1,3 +1,5 @@
+// This template is used to create a secure Azure Machine Learning workspace with CPU cluster, GPU cluster, Compute Instance and attached private AKS cluster.
+
 targetScope = 'resourceGroup'
 
 // General parameters

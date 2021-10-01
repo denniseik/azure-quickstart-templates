@@ -15,13 +15,14 @@ var privateDnsZoneName =  {
   azureusgovernment: 'privatelink.api.ml.azure.us'
   azurechinacloud: 'privatelink.api.ml.azure.cn'
   azurecloud: 'privatelink.api.azureml.ms'
-  }
+}
 
 var privateAznbDnsZoneName = {
     azureusgovernment: 'privatelink.notebooks.usgovcloudapi.net'
     azurechinacloud: 'privatelink.notebooks.chinacloudapi.cn'
     azurecloud: 'privatelink.notebooks.azure.net'
-    }
+}
+
 resource machineLearningPrivateEndpoint 'Microsoft.Network/privateEndpoints@2020-11-01' = {
   name: 'workspace-pe'
   location: location
