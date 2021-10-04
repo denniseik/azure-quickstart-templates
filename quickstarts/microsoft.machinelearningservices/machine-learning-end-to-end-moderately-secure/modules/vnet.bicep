@@ -44,7 +44,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-07-01' = {
             id: networkSecurityGroupId
           }
         }
-        name: 'training-subnet'
+        name: 'snet-training'
       }
       {
         id: 'snet-scoring'
@@ -67,7 +67,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-07-01' = {
             id: networkSecurityGroupId
           }
         }
-        name: 'scoring-subnet'
+        name: 'snet-scoring'
       }
       {
         id: 'AzureBastionSubnet'
