@@ -6,10 +6,10 @@ param location string
 param tags object
 param virtualNetworkName string
 param networkSecurityGroupId string
-param vnetAddressPrefix string
-param trainingSubnetPrefix string
-param scoringSubnetPrefix string
-param azureBastionSubnetPrefix string
+param vnetAddressPrefix string = '192.168.0.0/16'
+param trainingSubnetPrefix string = '192.168.0.0/24'
+param scoringSubnetPrefix string = '192.168.1.0/24'
+param azureBastionSubnetPrefix string = '192.168.250.0/27'
 
 // Resources
 resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-07-01' = {
@@ -19,14 +19,14 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-07-01' = {
   properties: {
     addressSpace: {
       addressPrefixes: [
-        empty(vnetAddressPrefix) ? '192.168.0.0/16' : vnetAddressPrefix
+        vnetAddressPrefix
       ]
     }
     subnets: [
       {
-        id: 'training-subnet'
+        id: 'snet-training'
         properties: {
-          addressPrefix: empty(trainingSubnetPrefix) ? '192.168.0.0/24' : trainingSubnetPrefix
+          addressPrefix: trainingSubnetPrefix
           privateEndpointNetworkPolicies: 'Disabled'
           privateLinkServiceNetworkPolicies: 'Disabled'
           serviceEndpoints: [
@@ -44,12 +44,12 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-07-01' = {
             id: networkSecurityGroupId
           }
         }
-        name: 'training-subnet'
+        name: 'snet-training'
       }
       {
-        id: 'scoring-subnet'
+        id: 'snet-scoring'
         properties: {
-          addressPrefix: empty(scoringSubnetPrefix) ? '192.168.1.0/24' : scoringSubnetPrefix
+          addressPrefix: scoringSubnetPrefix
           privateEndpointNetworkPolicies: 'Disabled'
           privateLinkServiceNetworkPolicies: 'Disabled'
           serviceEndpoints: [
@@ -67,12 +67,12 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2020-07-01' = {
             id: networkSecurityGroupId
           }
         }
-        name: 'scoring-subnet'
+        name: 'snet-scoring'
       }
       {
         id: 'AzureBastionSubnet'
         properties: {
-          addressPrefix: empty(azureBastionSubnetPrefix) ? '192.168.250.0/27' : azureBastionSubnetPrefix
+          addressPrefix: azureBastionSubnetPrefix
           privateEndpointNetworkPolicies: 'Disabled'
           privateLinkServiceNetworkPolicies: 'Disabled'
           serviceEndpoints: [

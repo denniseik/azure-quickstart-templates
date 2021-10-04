@@ -2,8 +2,8 @@
 targetScope = 'resourceGroup'
 
 // Parameters
-param location string
-param tags object
+param location string = resourceGroup().location
+param tags object = {}
 param applicationInsightsName string
 
 // Variables
