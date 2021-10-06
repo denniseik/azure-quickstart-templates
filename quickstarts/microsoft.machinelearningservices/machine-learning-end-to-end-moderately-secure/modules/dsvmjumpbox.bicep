@@ -1,12 +1,15 @@
 // This template is used to create a DSVM jump box.
-param location string
+
+param location string = resourceGroup().location
 param subnetId string
+param networkSecurityGroupId string
 param virtualMachineName string
-param adminUsername string
+param adminUsername string = 'azureuser'
+
 @secure()
 param adminPassword string
+
 var aadLoginExtensionName = 'AADLoginForWindows'
-param networkSecurityGroupId string
 
 resource networkInterface 'Microsoft.Network/networkInterfaces@2018-10-01' = {
   name: '${virtualMachineName}-nic'
